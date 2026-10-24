@@ -1,4 +1,5 @@
 from src.classes import Category, Product
+from src.utils import load_categories
 
 if __name__ == "__main__":
     product1 = Product(
@@ -50,3 +51,8 @@ if __name__ == "__main__":
 
     print(Category.category_count)
     print(Category.product_count)
+
+    print("--- Данные из JSON ---")
+    categories = load_categories("data/products.json")
+    print(len(categories))
+    print(Category.category_count, Category.product_count)

@@ -2,12 +2,6 @@ import pytest
 from src.classes import Category, Product
 
 
-@pytest.fixture(autouse=True)
-def reset_counters():
-    Category.category_count = 0
-    Category.product_count = 0
-
-
 @pytest.fixture
 def product():
     return Product("Samsung Galaxy", "256GB, серый", 180000.0, 5)
