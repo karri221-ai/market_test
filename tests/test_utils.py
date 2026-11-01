@@ -7,5 +7,5 @@ def test_load_categories():
 
     assert len(categories) == 2
     assert categories[0].name == "Смартфоны"
-    assert len(categories[0].products) == 3
-    assert isinstance(categories[0], Category)
+    assert "Iphone 15" in categories[0].products
+    assert Category.product_count == 4
