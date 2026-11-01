@@ -56,3 +56,7 @@ if __name__ == "__main__":
     categories = load_categories("data/products.json")
     print(len(categories))
     print(Category.category_count, Category.product_count)
+
+    category1.add_product(Product("Новый товар", "Описание", 1000.0, 3))
+    print(category1.products)
+    print(Category.product_count)
