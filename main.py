@@ -60,3 +60,12 @@ if __name__ == "__main__":
     category1.add_product(Product("Новый товар", "Описание", 1000.0, 3))
     print(category1.products)
     print(Category.product_count)
+
+    p = Product.new_product({"name": "Тест", "description": "Описание", "price": 500.0, "quantity": 2})
+    print(p.name, p.price)
+
+    p = Product("Тест", "Описание", 500.0, 2)
+    p.price = -10
+    print(p.price)
+    p.price = 800.0
+    print(p.price)
