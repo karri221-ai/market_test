@@ -32,7 +32,6 @@ if __name__ == "__main__":
 
     print(category1.name == "Смартфоны")
     print(category1.description)
-    print(len(category1.products))
     print(category1.category_count)
     print(category1.product_count)
 
@@ -46,25 +45,28 @@ if __name__ == "__main__":
 
     print(category2.name)
     print(category2.description)
-    print(len(category2.products))
     print(category2.products)
 
-    print(Category.category_count)
-    print(Category.product_count)
+    print("Категорий:", Category.category_count)
+    print("Товаров:", Category.product_count)
 
     print("--- Данные из JSON ---")
     categories = load_categories("data/products.json")
     print(len(categories))
-    print(Category.category_count, Category.product_count)
+    print("Категорий и товаров после загрузки:", Category.category_count, Category.product_count)
 
+    print("--- Добавление товара ---")
     category1.add_product(Product("Новый товар", "Описание", 1000.0, 3))
     print(category1.products)
-    print(Category.product_count)
+    print("Товаров всего:", Category.product_count)
 
-    p = Product.new_product({"name": "Тест", "description": "Описание", "price": 500.0, "quantity": 2})
+    print("--- Новый товар из словаря ---")
+    p = Product.new_product(
+        {"name": "Тест", "description": "Описание", "price": 500.0, "quantity": 2}
+    )
     print(p.name, p.price)
 
-    p = Product("Тест", "Описание", 500.0, 2)
+    print("--- Проверка цены ---")
     p.price = -10
     print(p.price)
     p.price = 800.0
