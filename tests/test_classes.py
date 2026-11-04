@@ -46,7 +46,7 @@ def test_add_product(product):
 def test_products_getter(product):
     category = Category("Смартфоны", "Описание", [product])
 
-    assert category.products == "Samsung Galaxy, 180000.0 руб. Остаток: 5 шт.\n"
+    assert category.products == "Samsung Galaxy, 180000 руб. Остаток: 5 шт.\n"
 
 
 def test_new_product():
