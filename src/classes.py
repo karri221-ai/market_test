@@ -8,7 +8,13 @@ class Product:
         self.quantity = quantity
 
     @classmethod
-    def new_product(cls, product_data: dict) -> "Product":
+    def new_product(cls, product_data: dict, products: list["Product"] | None = None) -> "Product":
+        if products:
+            for product in products:
+                if product.name == product_data["name"]:
+                    product.quantity += product_data["quantity"]
+                    product.price = max(product.price, product_data["price"])
+                    return product
         return cls(**product_data)
 
     @property
@@ -17,10 +23,14 @@ class Product:
 
     @price.setter
     def price(self, new_price: float) -> None:
-        if new_price > 0:
-            self.__price = new_price
-        else:
+        if new_price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
+        elif new_price < self.__price:
+            answer = input("Цена понижается. Подтвердить? (y/n): ")
+            if answer == "y":
+                self.__price = new_price
+        else:
+            self.__price = new_price
 
 
 class Category:

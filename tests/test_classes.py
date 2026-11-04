@@ -59,9 +59,23 @@ def test_new_product():
 
 
 def test_price_setter_valid(product):
+    product.price = 200000.0
+
+    assert product.price == 200000.0
+
+
+def test_price_decrease_confirmed(product, monkeypatch):
+    monkeypatch.setattr("builtins.input", lambda _: "y")
     product.price = 100.0
 
     assert product.price == 100.0
+
+
+def test_price_decrease_cancelled(product, monkeypatch):
+    monkeypatch.setattr("builtins.input", lambda _: "n")
+    product.price = 100.0
+
+    assert product.price == 180000.0
 
 
 def test_price_setter_invalid(product, capsys):
@@ -69,3 +83,35 @@ def test_price_setter_invalid(product, capsys):
 
     assert product.price == 180000.0
     assert "Цена не должна быть нулевая или отрицательная" in capsys.readouterr().out
+
+
+def test_new_product_duplicate_higher_price(product):
+    result = Product.new_product(
+        {"name": "Samsung Galaxy", "description": "Описание", "price": 190000.0, "quantity": 3},
+        [product],
+    )
+
+    assert result is product
+    assert product.quantity == 8
+    assert product.price == 190000.0
+
+
+def test_new_product_duplicate_lower_price(product):
+    Product.new_product(
+        {"name": "Samsung Galaxy", "description": "Описание", "price": 150000.0, "quantity": 2},
+        [product],
+    )
+
+    assert product.quantity == 7
+    assert product.price == 180000.0
+
+
+def test_new_product_not_duplicate(product):
+    result = Product.new_product(
+        {"name": "Другой товар", "description": "Описание", "price": 500.0, "quantity": 1},
+        [product],
+    )
+
+    assert result is not product
+    assert result.name == "Другой товар"
+    assert product.quantity == 5
