@@ -32,6 +32,15 @@ class Product:
         else:
             self.__price = new_price
 
+    def __str__(self) -> str:
+        price = self.price
+        if float(price).is_integer():
+            price = int(price)
+        return f"{self.name}, {price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: "Product") -> float:
+        return self.price * self.quantity + other.price * other.quantity
+
 
 class Category:
     """Категория товаров."""
@@ -55,8 +64,11 @@ class Category:
     def products(self) -> str:
         result = ""
         for product in self.__products:
-            price = product.price
-            if float(price).is_integer():
-                price = int(price)
-            result += f"{product.name}, {price} руб. Остаток: {product.quantity} шт.\n"
+            result += f"{product}\n"
         return result
+
+    def __str__(self) -> str:
+        total = 0
+        for product in self.__products:
+            total += product.quantity
+        return f"{self.name}, количество продуктов: {total} шт."

@@ -115,3 +115,20 @@ def test_new_product_not_duplicate(product):
     assert result is not product
     assert result.name == "Другой товар"
     assert product.quantity == 5
+
+
+def test_product_str(product):
+    assert str(product) == "Samsung Galaxy, 180000 руб. Остаток: 5 шт."
+
+
+def test_category_str(product):
+    other = Product("Iphone 15", "512GB", 210000.0, 8)
+    category = Category("Смартфоны", "Описание", [product, other])
+
+    assert str(category) == "Смартфоны, количество продуктов: 13 шт."
+
+
+def test_product_add(product):
+    other = Product("Iphone 15", "512GB", 210000.0, 8)
+
+    assert product + other == 2580000.0
