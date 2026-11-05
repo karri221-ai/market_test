@@ -1,5 +1,5 @@
 import pytest
-from src.classes import Category, Product
+from src.classes import Category, Product, CategoryIterator
 
 
 @pytest.fixture
@@ -132,3 +132,26 @@ def test_product_add(product):
     other = Product("Iphone 15", "512GB", 210000.0, 8)
 
     assert product + other == 2580000.0
+
+
+def test_category_iterator(product):
+    other = Product("Iphone 15", "512GB", 210000.0, 8)
+    category = Category("Смартфоны", "Описание", [product, other])
+
+    result = list(CategoryIterator(category))
+
+    assert result == [product, other]
+
+
+def test_category_iterator_twice(product):
+    category = Category("Смартфоны", "Описание", [product])
+    iterator = CategoryIterator(category)
+
+    assert len(list(iterator)) == 1
+    assert len(list(iterator)) == 1
+
+
+def test_category_iterator_empty():
+    category = Category("Пусто", "Описание", [])
+
+    assert list(CategoryIterator(category)) == []

@@ -67,8 +67,31 @@ class Category:
             result += f"{product}\n"
         return result
 
+    @property
+    def get_products_list(self) -> list[Product]:
+        return self.__products
+
     def __str__(self) -> str:
         total = 0
         for product in self.__products:
             total += product.quantity
         return f"{self.name}, количество продуктов: {total} шт."
+
+
+class CategoryIterator:
+    """Перебор товаров категории."""
+
+    def __init__(self, category: Category):
+        self.category = category
+        self.index = 0
+
+    def __iter__(self):
+        self.index = 0
+        return self
+
+    def __next__(self) -> Product:
+        if self.index < len(self.category.get_products_list):
+            product = self.category.get_products_list[self.index]
+            self.index += 1
+            return product
+        raise StopIteration
