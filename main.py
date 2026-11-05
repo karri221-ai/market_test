@@ -1,5 +1,10 @@
+from src.classes import Category, Product
+from src.utils import load_categories
+
 if __name__ == "__main__":
-    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    product1 = Product(
+        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5
+    )
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 
@@ -18,25 +23,51 @@ if __name__ == "__main__":
     print(product3.price)
     print(product3.quantity)
 
-    category1 = Category("Смартфоны",
-                         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-                         [product1, product2, product3])
+    category1 = Category(
+        "Смартфоны",
+        "Смартфоны, как средство не только коммуникации,"
+        " но и получения дополнительных функций для удобства жизни",
+        [product1, product2, product3],
+    )
 
     print(category1.name == "Смартфоны")
     print(category1.description)
-    print(len(category1.products))
     print(category1.category_count)
     print(category1.product_count)
 
-    product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
-    category2 = Category("Телевизоры",
-                         "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
-                         [product4])
+    product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
+    category2 = Category(
+        "Телевизоры",
+        "Современный телевизор, который позволяет наслаждаться просмотром, "
+        "станет вашим другом и помощником",
+        [product4],
+    )
 
     print(category2.name)
     print(category2.description)
-    print(len(category2.products))
     print(category2.products)
 
-    print(Category.category_count)
-    print(Category.product_count)
+    print("Категорий:", Category.category_count)
+    print("Товаров:", Category.product_count)
+
+    print("--- Данные из JSON ---")
+    categories = load_categories("data/products.json")
+    print(len(categories))
+    print("Категорий и товаров после загрузки:", Category.category_count, Category.product_count)
+
+    print("--- Добавление товара ---")
+    category1.add_product(Product("Новый товар", "Описание", 1000.0, 3))
+    print(category1.products)
+    print("Товаров всего:", Category.product_count)
+
+    print("--- Новый товар из словаря ---")
+    p = Product.new_product(
+        {"name": "Тест", "description": "Описание", "price": 500.0, "quantity": 2}
+    )
+    print(p.name, p.price)
+
+    print("--- Проверка цены ---")
+    p.price = -10
+    print(p.price)
+    p.price = 800.0
+    print(p.price)
