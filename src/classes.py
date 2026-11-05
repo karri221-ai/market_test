@@ -1,0 +1,49 @@
+class Product:
+    """Товар интернет-магазина."""
+
+    def __init__(self, name: str, description: str, price: float, quantity: int):
+        self.name = name
+        self.description = description
+        self.__price = price
+        self.quantity = quantity
+
+    @classmethod
+    def new_product(cls, product_data: dict) -> "Product":
+        return cls(**product_data)
+
+    @property
+    def price(self) -> float:
+        return self.__price
+
+    @price.setter
+    def price(self, new_price: float) -> None:
+        if new_price > 0:
+            self.__price = new_price
+        else:
+            print("Цена не должна быть нулевая или отрицательная")
+
+
+class Category:
+    """Категория товаров."""
+
+    category_count = 0
+    product_count = 0
+
+    def __init__(self, name: str, description: str, products: list[Product]):
+        self.name = name
+        self.description = description
+        self.__products = products
+
+        Category.category_count += 1
+        Category.product_count += len(products)
+
+    def add_product(self, product: Product) -> None:
+        self.__products.append(product)
+        Category.product_count += 1
+
+    @property
+    def products(self) -> str:
+        result = ""
+        for product in self.__products:
+            result += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
+        return result
