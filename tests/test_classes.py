@@ -1,5 +1,5 @@
 import pytest
-from src.classes import Category, Product, CategoryIterator
+from src.classes import Category, CategoryIterator, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture
@@ -155,3 +155,53 @@ def test_category_iterator_empty():
     category = Category("Пусто", "Описание", [])
 
     assert list(CategoryIterator(category)) == []
+
+
+def test_smartphone_init():
+    phone = Smartphone("Samsung", "256GB", 180000.0, 5, 95.5, "S23", 256, "Серый")
+
+    assert phone.name == "Samsung"
+    assert phone.efficiency == 95.5
+    assert phone.model == "S23"
+    assert phone.memory == 256
+    assert phone.color == "Серый"
+
+
+def test_lawn_grass_init():
+    grass = LawnGrass("Трава", "Описание", 500.0, 20, "Россия", "7 дней", "Зеленый")
+
+    assert grass.country == "Россия"
+    assert grass.germination_period == "7 дней"
+    assert grass.color == "Зеленый"
+
+
+def test_add_same_class():
+    grass1 = LawnGrass("Трава", "Описание", 500.0, 20, "Россия", "7 дней", "Зеленый")
+    grass2 = LawnGrass("Трава 2", "Описание", 450.0, 15, "США", "5 дней", "Темно-зеленый")
+
+    assert grass1 + grass2 == 16750.0
+
+
+def test_add_different_classes():
+    phone = Smartphone("Samsung", "256GB", 180000.0, 5, 95.5, "S23", 256, "Серый")
+    grass = LawnGrass("Трава", "Описание", 500.0, 20, "Россия", "7 дней", "Зеленый")
+
+    with pytest.raises(TypeError):
+        phone + grass
+
+
+def test_add_product_invalid():
+    category = Category("Тест", "Описание", [])
+
+    with pytest.raises(TypeError):
+        category.add_product("Not a product")
+
+    assert Category.product_count == 0
+
+
+def test_add_product_subclass():
+    category = Category("Смартфоны", "Описание", [])
+    phone = Smartphone("Samsung", "256GB", 180000.0, 5, 95.5, "S23", 256, "Серый")
+    category.add_product(phone)
+
+    assert Category.product_count == 1
