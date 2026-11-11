@@ -1,5 +1,5 @@
 import pytest
-from src.classes import Category, CategoryIterator, LawnGrass, Product, Smartphone
+from src.classes import BaseProduct, Category, CategoryIterator, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture
@@ -205,3 +205,20 @@ def test_add_product_subclass():
     category.add_product(phone)
 
     assert Category.product_count == 1
+
+
+def test_base_product_is_abstract():
+    with pytest.raises(TypeError):
+        BaseProduct()
+
+
+def test_mixin_prints_product(capsys):
+    Product("Продукт1", "Описание продукта", 1200, 10)
+
+    assert capsys.readouterr().out == "Product('Продукт1', 'Описание продукта', 1200, 10)\n"
+
+
+def test_mixin_prints_subclass_name(capsys):
+    Smartphone("Samsung", "256GB", 180000.0, 5, 95.5, "S23", 256, "Серый")
+
+    assert capsys.readouterr().out == "Smartphone('Samsung', '256GB', 180000.0, 5)\n"

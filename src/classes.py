@@ -1,7 +1,42 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class BaseProduct(ABC):
+    """Шаблон для любого товара."""
+
+    @classmethod
+    @abstractmethod
+    def new_product(cls, product_data: dict):
+        pass
+
+    @property
+    @abstractmethod
+    def price(self):
+        pass
+
+    @abstractmethod
+    def __str__(self) -> str:
+        pass
+
+    @abstractmethod
+    def __add__(self, other):
+        pass
+
+
+class ReprMixin:
+    """Печатает, от какого класса и с какими параметрами создан объект."""
+
+    def __init__(self, *args, **kwargs):
+        params = ", ".join([repr(a) for a in args] + [f"{k}={v!r}" for k, v in kwargs.items()])
+        print(f"{self.__class__.__name__}({params})")
+        super().__init__()
+
+
+class Product(ReprMixin, BaseProduct):
     """Товар интернет-магазина."""
 
     def __init__(self, name: str, description: str, price: float, quantity: int):
+        super().__init__(name, description, price, quantity)
         self.name = name
         self.description = description
         self.__price = price
